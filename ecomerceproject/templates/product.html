@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+        {{products.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+        {{products.name }} E-shop store
+{% endblock %}
+
+{% block content %}
+<div class="row my_prod_row_class">
+    <div class="mx-auto">
+        <p> <a href="{% url 'eshop:allprodcat' %}" >Home</a> | <a href="{{products.category.get_url}}">{{products.category}}</a>{{products.name}}</p>
+    </div>
+</div>
+<div class="container">
+<br>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+        <div style="min-width:18rem;">
+           {% if products.image %}
+           <img src="{{products.image.url}}" alt="{{products.name}}">
+           {% else %}
+           <img src="{% static 'default_products.jpg' %}" alt="{{products.name}}">
+           {% endif %}
+        </div>
+    </div>
+
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+          <div>
+          <h1 class="my_prod_title">{{products.name}}</h1>
+          <h4>M.R.P:{{products.price}}</h4>
+          {% if products.description %}
+          <p class="my_title" >Products Description</p>
+          <p class="text-justify my_prod_text">{{products.description}}</p>
+          {% endif %}
+          {% if products.stock <= 0 %}
+          <p class="text-justify my_prod_text"><b> out of stock</b></p>
+          {% else %}
+          <a class="btn btn-secondary" href="{% url 'cart:add_cart' products.id %}">Add to cart</a>
+          {% endif %}
+      </div>
+    </div>
+     </div>
+    </div>
+
+
+{% endblock %}
